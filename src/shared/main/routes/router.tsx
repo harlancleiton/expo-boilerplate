@@ -1,7 +1,13 @@
 import React from 'react';
 
-import { AuthRouter } from './Auth/router';
+import { AuthRouter } from '../../../auth/main/routes';
 
 export function Router() {
-  return <AuthRouter />;
+  const signed = false;
+
+  if (!signed) {
+    return <AuthRouter />;
+  }
+
+  return null;
 }

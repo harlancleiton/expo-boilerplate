@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { makeHome } from '../../factories';
+import { makeSignIn } from '../factories';
 import { Routes } from './routes';
 
 export function AuthRouter() {
@@ -10,7 +10,7 @@ export function AuthRouter() {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name={Routes.Home} component={makeHome} />
+      <Stack.Screen name={Routes.SignIn} component={makeSignIn} />
     </Stack.Navigator>
   );
 }
