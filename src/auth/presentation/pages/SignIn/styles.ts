@@ -4,7 +4,9 @@ import styled from 'styled-components/native';
 import SignInImg from '../../../../../assets/header-signin-page.png';
 import { Button, Typography } from '../../../../shared/presentational';
 
-export const Container = styled.ScrollView`
+export const Container = styled.ScrollView.attrs({
+  contentContainerStyle: { flexGrow: 1 }
+})`
   flex: 1;
   background-color: #ffeeeb;
 `;
@@ -27,9 +29,7 @@ export const FormContainer = styled.View`
   padding-horizontal: 16px;
 `;
 
-export const SignInButton = styled(Button)`
-  margin-right: 5px;
-`;
+export const SignInButton = styled(Button)``;
 
 export const GreetingContainer = styled.View`
   align-items: center;

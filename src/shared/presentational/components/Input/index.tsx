@@ -1,10 +1,11 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, FieldError } from 'react-hook-form';
 import { TextInput } from 'react-native';
 
 import {
   Container,
   Content,
+  Error,
   EyeIcon,
   EyeOffIcon,
   Label,
@@ -12,6 +13,7 @@ import {
 } from './styles';
 import {
   BlurEvent,
+  FocusEvent,
   FormBlurHandler,
   FormChangeHandler,
   InputProps
@@ -23,6 +25,7 @@ export function Input({
   label,
   onChangeText,
   onBlur,
+  onFocus,
   defaultValue,
   secureTextEntry,
   icon,
@@ -31,6 +34,7 @@ export function Input({
   const inputRef = React.useRef<TextInput>(null);
 
   const [visibleSecureText, setVisibleSecureText] = React.useState(false);
+  const [isFocused, setIsFocused] = React.useState(false);
 
   function handleChangeText(onChange: FormChangeHandler) {
     return function (text: string) {
@@ -44,8 +48,16 @@ export function Input({
     return function (event: BlurEvent) {
       onBlurFromForm();
 
+      setIsFocused(false);
+
       if (onBlur) onBlur(event);
     };
+  }
+
+  function handleFocus(event: FocusEvent) {
+    setIsFocused(true);
+
+    if (onFocus) onFocus(event);
   }
 
   function handlePressContainer() {
@@ -56,7 +68,9 @@ export function Input({
     setVisibleSecureText(prevState => !prevState);
   }
 
-  function renderEyeIcon() {
+  function renderEyeIcon(error?: FieldError) {
+    if (error && !isFocused) return null;
+
     if (secureTextEntry && !visibleSecureText)
       return <EyeIcon onPress={toggleVisibleSecureText} />;
 
@@ -71,26 +85,37 @@ export function Input({
       control={control}
       name={name}
       defaultValue={defaultValue}
-      render={({ field: { value, onChange, onBlur: onBlurFromForm } }) => (
-        <Container onPress={handlePressContainer}>
-          {icon && <>{icon}</>}
+      render={({
+        field: { value, onChange, onBlur: onBlurFromForm, ref },
+        fieldState: { error }
+      }) => {
+        return (
+          <Container onPress={handlePressContainer}>
+            {icon && <>{icon}</>}
 
-          <Content hasIcon={!!icon}>
-            <Label>{label}</Label>
+            <Content hasIcon={!!icon}>
+              <Label>{label}</Label>
 
-            <StyledInput
-              {...rest}
-              ref={inputRef}
-              onChangeText={handleChangeText(onChange)}
-              onBlur={handleBlur(onBlurFromForm)}
-              value={value}
-              secureTextEntry={secureTextEntry && !visibleSecureText}
-            />
-          </Content>
+              <StyledInput
+                {...rest}
+                ref={e => {
+                  ref(e);
+                  inputRef.current = e;
+                }}
+                onChangeText={handleChangeText(onChange)}
+                onBlur={handleBlur(onBlurFromForm)}
+                onFocus={handleFocus}
+                value={value}
+                secureTextEntry={secureTextEntry && !visibleSecureText}
+              />
+            </Content>
 
-          {renderEyeIcon()}
-        </Container>
-      )}
+            {renderEyeIcon(error)}
+
+            {error && !isFocused && <Error>{error.message}</Error>}
+          </Container>
+        );
+      }}
     ></Controller>
   );
 }

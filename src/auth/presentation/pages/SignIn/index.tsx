@@ -1,7 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { StatusBar } from 'expo-status-bar';
+import * as yup from 'yup';
 
 import { Input, SizedBox } from '../../../../shared/presentational';
 import {
@@ -18,8 +20,16 @@ import {
 } from './styles';
 import { SignInFormData } from './types';
 
+const schema = yup.object().shape({
+  email: yup.string().email('E-mail inválido').required('Informe seu e-mail'),
+  password: yup.string().required('Informe sua senha')
+});
+
 export function SignIn() {
-  const { control, handleSubmit } = useForm<SignInFormData>();
+  const { control, handleSubmit, setFocus } = useForm<SignInFormData>({
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
+  });
 
   function signIn({ email, password }: SignInFormData) {
     console.log('SignIn: ', { email, password });
@@ -48,6 +58,8 @@ export function SignIn() {
           label="Informe seu e-mail"
           keyboardType="email-address"
           autoCapitalize="none"
+          onSubmitEditing={() => setFocus('password')}
+          returnKeyType="next"
         />
 
         <SizedBox height={16} />
@@ -59,6 +71,8 @@ export function SignIn() {
           label="Informe sua senha"
           secureTextEntry
           autoCapitalize="none"
+          onSubmitEditing={handleSubmit(signIn)}
+          returnKeyType="done"
         />
 
         <SizedBox height={24} />

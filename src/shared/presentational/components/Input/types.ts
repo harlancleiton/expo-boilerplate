@@ -18,6 +18,7 @@ export type FormChangeHandler = (...event: any[]) => void;
 export type FormBlurHandler = () => void;
 
 export type BlurEvent = NativeSyntheticEvent<TextInputFocusEventData>;
+export type FocusEvent = NativeSyntheticEvent<TextInputFocusEventData>;
 
 export interface ContentProps {
   hasIcon?: boolean;

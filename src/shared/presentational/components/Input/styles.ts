@@ -8,7 +8,7 @@ export const Container = styled.Pressable`
   padding-vertical: 8px;
   border-radius: 8px;
   background-color: #f5f5f5;
-  height: 62px;
+  height: 72px;
   flex-direction: row;
   align-items: center;
 `;
@@ -25,7 +25,6 @@ export const Content = styled.View<ContentProps>`
 
 export const Label = styled.Text`
   color: #a7a7af;
-  margin-right: 5px;
   font-weight: 500;
   font-size: 12px;
 `;
@@ -45,3 +44,9 @@ export const EyeOffIcon = styled(MaterialCommunityIcons).attrs({
   size: 24,
   color: '#A7A7AF'
 })``;
+
+export const Error = styled.Text`
+  color: #d2695c;
+  font-weight: 500;
+  font-size: 12px;
+`;
