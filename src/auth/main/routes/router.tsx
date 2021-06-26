@@ -9,7 +9,7 @@ export function AuthRouter() {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={Routes.SignIn} component={makeSignIn} />
     </Stack.Navigator>
   );
