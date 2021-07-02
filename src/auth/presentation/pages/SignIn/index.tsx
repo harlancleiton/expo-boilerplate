@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as yup from 'yup';
 
 import { Input, SizedBox } from '../../../../shared/presentational';
+import { useAuth } from '../../hooks';
 import {
   Container,
   HeaderImage,
@@ -31,9 +32,7 @@ export function SignIn() {
     resolver: yupResolver(schema)
   });
 
-  function signIn({ email, password }: SignInFormData) {
-    console.log('SignIn: ', { email, password });
-  }
+  const { signIn } = useAuth();
 
   return (
     <Container>

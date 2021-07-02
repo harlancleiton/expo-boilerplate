@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
+import { AuthProvider } from '../../auth';
 import { Router } from './routes/router';
 
 export function App() {
@@ -13,7 +14,9 @@ export function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <StatusBar style="auto" />
-        <Router />
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
       </NavigationContainer>
     </SafeAreaProvider>
   );
