@@ -1,16 +1,23 @@
-import React from 'react';
-import { Control } from 'react-hook-form';
+import {
+  Control,
+  FieldPath,
+  FieldPathValue,
+  FieldValues
+} from 'react-hook-form';
 import {
   NativeSyntheticEvent,
   TextInputFocusEventData,
   TextInputProps
 } from 'react-native';
 
-export interface InputProps extends TextInputProps {
-  control: Control;
-  name: string;
+// @ts-ignore
+export interface InputProps<TFieldValues extends FieldValues = FieldValues>
+  extends TextInputProps {
+  control: Control<TFieldValues>;
+  name: FieldPath<TFieldValues>;
   label: string;
   icon?: JSX.Element;
+  defaultValue?: FieldPathValue<TFieldValues, FieldPath<TFieldValues>>;
 }
 
 export type FormChangeHandler = (...event: any[]) => void;
