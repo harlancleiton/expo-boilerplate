@@ -1,4 +1,4 @@
-import { UserModel } from './user';
+import { UserModel } from './User';
 
 export interface SessionModel {
   accessToken: string;

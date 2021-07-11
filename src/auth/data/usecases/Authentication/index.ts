@@ -1,1 +1,1 @@
-export * from './http-authentication';
+export * from './RemoteAuthentication';

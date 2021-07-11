@@ -3,9 +3,7 @@ import { AxiosHttpClient } from '../../../infra';
 
 export function makeHttpClient(): HttpClient {
   // TODO add environment variables
-  const baseURL = 'http://localhost:3333/';
+  const baseURL = 'http://172.16.0.60:3333/';
 
-  const httpClient = new AxiosHttpClient({ baseURL });
-
-  return httpClient;
+  return new AxiosHttpClient({ baseURL });
 }

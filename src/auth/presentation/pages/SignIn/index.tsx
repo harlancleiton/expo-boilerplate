@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StatusBar } from 'expo-status-bar';
 import * as yup from 'yup';
 
-import { Input, SizedBox } from '../../../../shared/presentational';
+import { Input, SizedBox } from '../../../../shared';
 import { useAuth } from '../../hooks';
 import {
   Container,

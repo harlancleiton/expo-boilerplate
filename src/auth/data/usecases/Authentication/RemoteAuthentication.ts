@@ -1,8 +1,8 @@
 import {
-  AppError,
-  BadRequestError,
   HttpClient,
-  NetworkError
+  NetworkError,
+  BadRequestError,
+  AppError
 } from '../../../../shared';
 import { HttpResponse } from '../../../../shared/data/protocols/http/types';
 import {

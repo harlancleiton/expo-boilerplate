@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 
 import SignInImg from '../../../../../assets/header-signin-page.png';
-import { Button, Typography } from '../../../../shared/presentational';
+import { Button, Typography } from '../../../../shared';
 
 export const Container = styled.ScrollView.attrs({
   contentContainerStyle: { flexGrow: 1 }

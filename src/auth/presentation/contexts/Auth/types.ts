@@ -1,35 +1,25 @@
 import React from 'react';
 
-export interface SignInCredentials {
-  email: string;
-  password: string;
-}
+import { Authentication, CredentialsModel, UserModel } from '../../../domain';
 
-export interface User {
-  id: string;
-  firstname: string;
-  lastname: string;
-  fullname: string;
-  email: string;
-  birthdate?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface SignInResponse {
-  token: string;
-  refreshToken: string;
-  user: User;
-}
+export type SignInHandler = (
+  credentials: CredentialsModel
+) => Promise<UserModel>;
 
 export interface AuthContextProps {
-  user: User | null;
+  user: UserModel | null;
+
   signed: boolean;
-  signIn(credentials: SignInCredentials): Promise<void>;
+
+  signIn(credentials: CredentialsModel): Promise<UserModel>;
+
   signOut(): void;
+
   loadingSignIn: boolean;
 }
 
 export interface AuthProviderProps {
   children: React.ReactNode;
+
+  authentication: Authentication;
 }
