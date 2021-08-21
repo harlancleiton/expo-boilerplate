@@ -17,13 +17,13 @@ export class RemoteAuthentication implements Authentication {
 
   async execute(credentials: CredentialsModel): Promise<SessionModel> {
     try {
-      const response = await this.httpClient.request({
+      const response = await this.httpClient.request<SessionModel>({
         method: 'post',
         url: 'auth/login',
         data: credentials
       });
 
-      return await response.data;
+      return response.data;
     } catch (error) {
       if (!error.response) {
         throw new NetworkError();
