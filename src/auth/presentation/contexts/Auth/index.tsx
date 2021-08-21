@@ -11,28 +11,62 @@ export const AuthContext = React.createContext<AuthContextProps>(
 export function AuthProvider({
   authentication,
   children,
+  getAccessToken,
+  getMe,
   setAccessToken
 }: AuthProviderProps) {
   const [user, setUser] = React.useState<UserModel>(null);
   const [loadingSignIn, setLoadingSignIn] = React.useState(false);
+  const [loadingPreviousLogin, setLoadingPreviousLogin] = React.useState(false);
 
-  const execute = useExecute(authentication);
+  const executeGetMe = useExecute(getMe);
 
-  const signIn = React.useCallback<SignInHandler>(async credentials => {
-    setLoadingSignIn(true);
+  React.useEffect(() => {
+    async function loadPreviousLogin() {
+      setLoadingPreviousLogin(true);
+      const isAlreadySigned = !!(await getAccessToken());
 
-    const response = await execute(credentials);
+      if (!isAlreadySigned) return;
 
-    const { status, data: session } = response;
+      const response = await executeGetMe();
 
-    if (status === 'error') return;
+      const { status, data: userFromResponse } = response;
 
-    setUser(session.user);
-    setAccessToken(session.accessToken);
-  }, []);
+      setLoadingPreviousLogin(false);
+
+      if (status === 'error') {
+        // TODO remove ACCESS_TOKEN
+        return;
+      }
+
+      setUser(userFromResponse);
+    }
+
+    loadPreviousLogin();
+  }, [executeGetMe, getAccessToken]);
+
+  const executeAuthentication = useExecute(authentication);
+
+  const signIn = React.useCallback<SignInHandler>(
+    async credentials => {
+      setLoadingSignIn(true);
+
+      const response = await executeAuthentication(credentials);
+
+      const { status, data: session } = response;
+
+      if (status === 'error') return;
+
+      setUser(session.user);
+      await setAccessToken(session.accessToken);
+      setLoadingSignIn(false);
+    },
+    [executeAuthentication, setAccessToken]
+  );
 
   const signOut = React.useCallback(() => {
     setUser(null);
+    // TODO remove ACCESS_TOKEN
   }, []);
 
   return (

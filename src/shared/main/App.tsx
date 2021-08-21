@@ -7,15 +7,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
 import { AuthProvider, makeAuthentication } from '../../auth';
+import { makeGetMe } from '../../users/main/factories';
 import { ACCESS_TOKEN } from '../data';
 import { makeStorage } from './factories';
 import { Router } from './routes/router';
 
 export function App() {
-  function setAccessToken(accessToken: string) {
+  const setAccessToken = React.useCallback((accessToken: string) => {
     const storage = makeStorage();
-    storage.setItem(ACCESS_TOKEN, accessToken);
-  }
+    return storage.setItem(ACCESS_TOKEN, accessToken);
+  }, []);
+
+  const getAccessToken = React.useCallback(() => {
+    const storage = makeStorage();
+    return storage.getItem<string>(ACCESS_TOKEN);
+  }, []);
 
   return (
     <SafeAreaProvider>
@@ -23,6 +29,8 @@ export function App() {
         <StatusBar style="auto" />
         <AuthProvider
           authentication={makeAuthentication()}
+          getAccessToken={getAccessToken}
+          getMe={makeGetMe()}
           setAccessToken={setAccessToken}
         >
           <Router />

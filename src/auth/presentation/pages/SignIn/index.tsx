@@ -29,7 +29,8 @@ const schema = yup.object().shape({
 export function SignIn() {
   const { control, handleSubmit, setFocus } = useForm<SignInFormData>({
     mode: 'onBlur',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: { email: 'harlancleiton@gmail.com', password: '123123' }
   });
 
   const { signIn } = useAuth();

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { GetMe } from '../../../../users';
 import { Authentication, CredentialsModel, UserModel } from '../../../domain';
 
 export type SignInHandler = (credentials: CredentialsModel) => Promise<void>;
@@ -20,5 +21,7 @@ export interface AuthProviderProps {
   children: React.ReactNode;
 
   authentication: Authentication;
-  setAccessToken(accessToken: string): Promise<void> | void;
+  getAccessToken(): Promise<string>;
+  getMe: GetMe;
+  setAccessToken(accessToken: string): Promise<void>;
 }
