@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { AppError } from '../../../shared';
 
 export interface Response<T> {
@@ -19,19 +21,22 @@ export type ExecuteHandler<Handler extends UseCaseExecute> = (
 ) => Promise<Response<Awaited<ReturnType<Handler>>>>;
 
 export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
-  const execute: ExecuteHandler<UseCaseT['execute']> = async (...args) => {
-    try {
-      const data = await usecase.execute(...args);
+  const execute: ExecuteHandler<UseCaseT['execute']> = React.useCallback(
+    async (...args) => {
+      try {
+        const data = await usecase.execute(...args);
 
-      return { status: 'success', data };
-    } catch (error) {
-      if (error instanceof AppError)
-        return { status: 'error', error: error.message, data: undefined };
+        return { status: 'success', data };
+      } catch (error) {
+        if (error instanceof AppError)
+          return { status: 'error', error: error.message, data: undefined };
 
-      const appError = new AppError();
-      return { status: 'error', error: appError.message, data: undefined };
-    }
-  };
+        const appError = new AppError();
+        return { status: 'error', error: appError.message, data: undefined };
+      }
+    },
+    [usecase]
+  );
 
   return execute;
 }
