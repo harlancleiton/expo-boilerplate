@@ -11,13 +11,14 @@ export const AuthContext = React.createContext<AuthContextProps>(
 export function AuthProvider({
   authentication,
   children,
+  clearStorage,
   getAccessToken,
   getMe,
   setAccessToken
 }: AuthProviderProps) {
   const [user, setUser] = React.useState<UserModel>(null);
   const [loadingSignIn, setLoadingSignIn] = React.useState(false);
-  const [loadingPreviousLogin, setLoadingPreviousLogin] = React.useState(false);
+  const [, setLoadingPreviousLogin] = React.useState(false);
 
   const executeGetMe = useExecute(getMe);
 
@@ -64,10 +65,11 @@ export function AuthProvider({
     [executeAuthentication, setAccessToken]
   );
 
-  const signOut = React.useCallback(() => {
+  const signOut = React.useCallback(async () => {
+    await clearStorage();
+
     setUser(null);
-    // TODO remove ACCESS_TOKEN
-  }, []);
+  }, [clearStorage]);
 
   return (
     <AuthContext.Provider

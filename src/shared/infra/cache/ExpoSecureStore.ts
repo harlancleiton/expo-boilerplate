@@ -1,6 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 
 import { Storage } from '../../data';
+import * as KEYS from '../../data/protocols/cache/keys';
 
 export class ExpoSecureStore implements Storage {
   async setItem(key: string, value: any): Promise<void> {
@@ -23,6 +24,8 @@ export class ExpoSecureStore implements Storage {
   }
 
   async clear(): Promise<void> {
-    // TODO add implementation
+    const keysInStorage = Object.values(KEYS);
+
+    await Promise.all(keysInStorage.map(this.deleteItem));
   }
 }

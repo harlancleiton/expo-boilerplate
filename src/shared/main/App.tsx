@@ -13,6 +13,11 @@ import { makeStorage } from './factories';
 import { Router } from './routes/router';
 
 export function App() {
+  const clearStorage = React.useCallback(() => {
+    const storage = makeStorage();
+    return storage.clear();
+  }, []);
+
   const setAccessToken = React.useCallback((accessToken: string) => {
     const storage = makeStorage();
     return storage.setItem(ACCESS_TOKEN, accessToken);
@@ -29,6 +34,7 @@ export function App() {
         <StatusBar style="auto" />
         <AuthProvider
           authentication={makeAuthentication()}
+          clearStorage={clearStorage}
           getAccessToken={getAccessToken}
           getMe={makeGetMe()}
           setAccessToken={setAccessToken}
