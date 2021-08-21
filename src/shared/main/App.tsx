@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
 import { AuthProvider, makeAuthentication } from '../../auth';
-import { makeGetMe } from '../../users/main/factories';
+import { makeGetMe } from '../../users';
 import { ACCESS_TOKEN } from '../data';
 import { makeStorage } from './factories';
 import { Router } from './routes/router';
