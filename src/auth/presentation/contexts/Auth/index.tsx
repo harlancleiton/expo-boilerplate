@@ -8,7 +8,11 @@ export const AuthContext = React.createContext<AuthContextProps>(
   {} as AuthContextProps
 );
 
-export function AuthProvider({ children, authentication }: AuthProviderProps) {
+export function AuthProvider({
+  authentication,
+  children,
+  setAccessToken
+}: AuthProviderProps) {
   const [user, setUser] = React.useState<UserModel>(null);
   const [loadingSignIn, setLoadingSignIn] = React.useState(false);
 
@@ -21,7 +25,10 @@ export function AuthProvider({ children, authentication }: AuthProviderProps) {
 
     const { status, data: session } = response;
 
-    if (status === 'success') setUser(session.user);
+    if (status === 'error') return;
+
+    setUser(session.user);
+    setAccessToken(session.accessToken);
   }, []);
 
   const signOut = React.useCallback(() => {

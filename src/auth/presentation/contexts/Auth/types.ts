@@ -20,4 +20,5 @@ export interface AuthProviderProps {
   children: React.ReactNode;
 
   authentication: Authentication;
+  setAccessToken(accessToken: string): Promise<void> | void;
 }
