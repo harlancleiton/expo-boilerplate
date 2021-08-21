@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useExecute } from '../../../../shared/presentational';
 import { UserModel } from '../../../domain';
 import { AuthContextProps, AuthProviderProps, SignInHandler } from './types';
 
@@ -9,24 +10,18 @@ export const AuthContext = React.createContext<AuthContextProps>(
 
 export function AuthProvider({ children, authentication }: AuthProviderProps) {
   const [user, setUser] = React.useState<UserModel>(null);
-  const [loadingSignIn, setLoadingSignIn] = React.useState(true);
+  const [loadingSignIn, setLoadingSignIn] = React.useState(false);
+
+  const execute = useExecute(authentication);
 
   const signIn = React.useCallback<SignInHandler>(async credentials => {
-    try {
-      setLoadingSignIn(true);
+    setLoadingSignIn(true);
 
-      const response = await authentication.execute(credentials);
+    const response = await execute(credentials);
 
-      const { user: userFromResponse } = response;
+    const { status, data: session } = response;
 
-      setUser(userFromResponse);
-
-      return userFromResponse;
-    } catch (error) {
-      console.log('error: ', error);
-    } finally {
-      setLoadingSignIn(false);
-    }
+    if (status === 'success') setUser(session.user);
   }, []);
 
   const signOut = React.useCallback(() => {

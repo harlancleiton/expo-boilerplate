@@ -19,7 +19,7 @@ export class RemoteAuthentication implements Authentication {
     try {
       const response = await this.httpClient.request({
         method: 'post',
-        url: '/auth/login',
+        url: 'auth/login',
         data: credentials
       });
 
