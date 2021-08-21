@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppError } from '../../../shared';
+import { AppError } from '../../domain';
 
 export interface Response<T> {
   status: 'success' | 'error';
