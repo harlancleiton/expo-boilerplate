@@ -4,7 +4,7 @@ import { Storage } from '../../data';
 
 export class ExpoSecureStore implements Storage {
   async setItem(key: string, value: any): Promise<void> {
-    const valueParsedToString = JSON.parse(value);
+    const valueParsedToString = JSON.stringify(value);
 
     await SecureStore.setItemAsync(key, valueParsedToString);
   }
