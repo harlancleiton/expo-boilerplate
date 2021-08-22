@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     es2021: true,
-    jest: true
+    jest: true,
+    node: true
   },
   extends: [
     'plugin:react/recommended',
@@ -26,6 +27,8 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'error',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     'no-console': 'warn',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
