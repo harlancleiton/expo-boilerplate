@@ -1,6 +1,7 @@
 import React from 'react';
+import Toast from 'react-native-toast-message';
 
-import { AppError } from '../../domain';
+import { AppError, InternalServerError } from '../../domain';
 
 export interface Response<T> {
   status: 'success' | 'error';
@@ -28,11 +29,28 @@ export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
 
         return { status: 'success', data };
       } catch (error) {
-        if (error instanceof AppError)
-          return { status: 'error', error: error.message, data: undefined };
+        const errorIsInstanceOfAppError = error instanceof AppError;
 
-        const appError = new AppError();
-        return { status: 'error', error: appError.message, data: undefined };
+        const defaultErrorMessage =
+          !errorIsInstanceOfAppError && new AppError().message;
+
+        const errorMessage = errorIsInstanceOfAppError
+          ? error.message
+          : defaultErrorMessage;
+
+        const isInternalServerError = error instanceof InternalServerError;
+
+        const titleToastError = isInternalServerError
+          ? 'Lamentamos pelo incovinente'
+          : 'Verifique os dados e tente novamente';
+
+        Toast.show({
+          type: 'error',
+          text1: titleToastError,
+          text2: errorMessage
+        });
+
+        return { status: 'error', error: errorMessage, data: undefined };
       }
     },
     [usecase]
