@@ -13,20 +13,19 @@ import { makeStorage } from './factories';
 import { Router } from './routes/router';
 
 export function App() {
-  const clearStorage = React.useCallback(() => {
-    const storage = makeStorage();
+  const storage = makeStorage();
+
+  function clearStorage() {
     return storage.clear();
-  }, []);
+  }
 
-  const setAccessToken = React.useCallback((accessToken: string) => {
-    const storage = makeStorage();
+  function setAccessToken(accessToken: string) {
     return storage.setItem(ACCESS_TOKEN, accessToken);
-  }, []);
+  }
 
-  const getAccessToken = React.useCallback(() => {
-    const storage = makeStorage();
+  function getAccessToken() {
     return storage.getItem<string>(ACCESS_TOKEN);
-  }, []);
+  }
 
   return (
     <SafeAreaProvider>
