@@ -2,6 +2,7 @@ import {
   HttpClient,
   NetworkError,
   BadRequestError,
+  InternalServerError,
   AppError
 } from '../../../../shared';
 import { HttpResponse } from '../../../../shared/data/protocols/http/types';
@@ -35,7 +36,10 @@ export class RemoteAuthentication implements Authentication {
         case 400:
           throw new BadRequestError();
         case 401:
-          throw new UnauthorizedError();
+          throw new UnauthorizedError('Usuario ou senha incorretos');
+        case 500:
+        case 503:
+          throw new InternalServerError();
         default:
           throw new AppError();
       }
