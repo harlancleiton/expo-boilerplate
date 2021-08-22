@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
@@ -40,6 +41,7 @@ export function App() {
         >
           <Router />
         </AuthProvider>
+        <Toast ref={Toast.setRef} topOffset={54} />
       </NavigationContainer>
     </SafeAreaProvider>
   );
