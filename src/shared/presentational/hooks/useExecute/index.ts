@@ -1,34 +1,13 @@
 import React from 'react';
 import Toast from 'react-native-toast-message';
 
-import { AppError, InternalServerError } from '../../domain';
-
-export interface Response<T> {
-  status: 'success' | 'error';
-  data: T;
-  error?: string;
-}
-
-export type UseCaseExecute = (...args) => Promise<any>;
-
-export interface UseCase {
-  execute: UseCaseExecute;
-}
-
-export type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
-
-export type ExecuteHandler<Handler extends UseCaseExecute> = (
-  ...args
-) => Promise<Response<Awaited<ReturnType<Handler>>>>;
+import { AppError, InternalServerError } from '../../../domain';
+import { UseCase, ExecuteHandler } from './types';
 
 export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
-  const execute: ExecuteHandler<UseCaseT['execute']> = React.useCallback(
+  const execute = React.useCallback<ExecuteHandler<UseCaseT['execute']>>(
     async (...args) => {
-      try {
-        const data = await usecase.execute(...args);
-
-        return { status: 'success', data };
-      } catch (error) {
+      function getErrorMessage(error: any): string {
         const errorIsInstanceOfAppError = error instanceof AppError;
 
         const defaultErrorMessage =
@@ -38,11 +17,26 @@ export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
           ? error.message
           : defaultErrorMessage;
 
+        return errorMessage;
+      }
+
+      function getTitleToastError(error: any): string {
         const isInternalServerError = error instanceof InternalServerError;
 
         const titleToastError = isInternalServerError
           ? 'Lamentamos pelo incovinente'
           : 'Verifique os dados e tente novamente';
+
+        return titleToastError;
+      }
+
+      try {
+        const data = await usecase.execute(...args);
+
+        return { status: 'success', data };
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        const titleToastError = getTitleToastError(error);
 
         Toast.show({
           type: 'error',
