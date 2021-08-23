@@ -16,7 +16,7 @@ import { Router } from './routes/router';
 export function App() {
   const storage = makeStorage();
 
-  function clearStorage() {
+  function clearCache() {
     return storage.clear();
   }
 
@@ -38,7 +38,7 @@ export function App() {
         <StatusBar style="auto" />
         <AuthProvider
           authentication={makeAuthentication()}
-          clearStorage={clearStorage}
+          clearCache={clearCache}
           getAccessToken={getAccessToken}
           getMe={makeGetMe()}
           removeAccessToken={removeAccessToken}

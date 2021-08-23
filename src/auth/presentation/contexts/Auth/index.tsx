@@ -11,7 +11,7 @@ export const AuthContext = React.createContext<AuthContextProps>(
 export function AuthProvider({
   authentication,
   children,
-  clearStorage,
+  clearCache,
   getAccessToken,
   getMe,
   removeAccessToken,
@@ -68,10 +68,10 @@ export function AuthProvider({
   );
 
   const signOut = React.useCallback(async () => {
-    await clearStorage();
+    await clearCache();
 
     setUser(null);
-  }, [clearStorage]);
+  }, [clearCache]);
 
   return (
     <AuthContext.Provider

@@ -21,7 +21,7 @@ export interface AuthProviderProps {
   children: React.ReactNode;
 
   authentication: Authentication;
-  clearStorage(): Promise<void>;
+  clearCache(): Promise<void>;
   getAccessToken(): Promise<string | null>;
   getMe: GetMe;
   removeAccessToken(): Promise<void>;
