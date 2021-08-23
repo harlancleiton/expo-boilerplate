@@ -33,7 +33,7 @@ export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
           return 'Sem conexão';
         }
 
-        return 'Lamentamos pelo incovinente';
+        return 'Verifique os dados e tente novamente';
       }
 
       try {
