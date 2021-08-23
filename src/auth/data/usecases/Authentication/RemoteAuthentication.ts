@@ -1,11 +1,8 @@
+import { AppError, HttpClient, RemoteTemplateMethod } from '../../../../shared';
 import {
-  HttpClient,
-  NetworkError,
-  BadRequestError,
-  InternalServerError,
-  AppError
-} from '../../../../shared';
-import { HttpResponse } from '../../../../shared/data/protocols/http/types';
+  HttpMethod,
+  HttpResponse
+} from '../../../../shared/data/protocols/http/types';
 import {
   Authentication,
   CredentialsModel,
@@ -13,36 +10,37 @@ import {
   UnauthorizedError
 } from '../../../domain';
 
-export class RemoteAuthentication implements Authentication {
-  constructor(private readonly httpClient: HttpClient) {}
+export class RemoteAuthentication
+  extends RemoteTemplateMethod<SessionModel>
+  implements Authentication
+{
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
+  }
 
-  async execute(credentials: CredentialsModel): Promise<SessionModel> {
-    try {
-      const response = await this.httpClient.request<SessionModel>({
-        method: 'post',
-        url: 'auth/login',
-        data: credentials
-      });
+  getUrl(): string {
+    return 'auth/login';
+  }
 
-      return response.data;
-    } catch (error) {
-      if (!error.response) {
-        throw new NetworkError();
-      }
+  getMethod(): HttpMethod {
+    return 'post';
+  }
 
-      const response: HttpResponse = error.response;
+  getRequestBody(credentials: CredentialsModel) {
+    return credentials;
+  }
 
-      switch (response.status) {
-        case 400:
-          throw new BadRequestError();
-        case 401:
-          throw new UnauthorizedError('Usuario ou senha incorretos');
-        case 500:
-        case 503:
-          throw new InternalServerError();
-        default:
-          throw new AppError();
-      }
+  exceptionFactory(error: any): AppError {
+    if (!error.response) {
+      return super.exceptionFactory(error);
     }
+
+    const response: HttpResponse = error.response;
+
+    if (response.status !== 401) {
+      return super.exceptionFactory(error);
+    }
+
+    return new UnauthorizedError('Usuario ou senha incorretos');
   }
 }
