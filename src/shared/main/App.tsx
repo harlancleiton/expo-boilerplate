@@ -20,12 +20,16 @@ export function App() {
     return storage.clear();
   }
 
-  function setAccessToken(accessToken: string) {
-    return storage.setItem(ACCESS_TOKEN, accessToken);
-  }
-
   function getAccessToken() {
     return storage.getItem<string>(ACCESS_TOKEN);
+  }
+
+  function removeAccessToken() {
+    return storage.deleteItem(ACCESS_TOKEN);
+  }
+
+  function setAccessToken(accessToken: string) {
+    return storage.setItem(ACCESS_TOKEN, accessToken);
   }
 
   return (
@@ -37,6 +41,7 @@ export function App() {
           clearStorage={clearStorage}
           getAccessToken={getAccessToken}
           getMe={makeGetMe()}
+          removeAccessToken={removeAccessToken}
           setAccessToken={setAccessToken}
         >
           <Router />

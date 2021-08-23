@@ -22,7 +22,8 @@ export interface AuthProviderProps {
 
   authentication: Authentication;
   clearStorage(): Promise<void>;
-  getAccessToken(): Promise<string>;
+  getAccessToken(): Promise<string | null>;
   getMe: GetMe;
+  removeAccessToken(): Promise<void>;
   setAccessToken(accessToken: string): Promise<void>;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useExecute } from '../../../../shared/presentational';
+import { useExecute } from '../../../../shared';
 import { UserModel } from '../../../domain';
 import { AuthContextProps, AuthProviderProps, SignInHandler } from './types';
 
@@ -14,6 +14,7 @@ export function AuthProvider({
   clearStorage,
   getAccessToken,
   getMe,
+  removeAccessToken,
   setAccessToken
 }: AuthProviderProps) {
   const [user, setUser] = React.useState<UserModel>(null);
@@ -36,7 +37,7 @@ export function AuthProvider({
       setLoadingPreviousLogin(false);
 
       if (status === 'error') {
-        // TODO remove ACCESS_TOKEN
+        await removeAccessToken();
         return;
       }
 
@@ -44,7 +45,7 @@ export function AuthProvider({
     }
 
     loadPreviousLogin();
-  }, [executeGetMe, getAccessToken]);
+  }, [executeGetMe, getAccessToken, removeAccessToken]);
 
   const executeAuthentication = useExecute(authentication);
 
@@ -56,11 +57,12 @@ export function AuthProvider({
 
       const { status, data: session } = response;
 
+      setLoadingSignIn(false);
+
       if (status === 'error') return;
 
-      setUser(session.user);
       await setAccessToken(session.accessToken);
-      setLoadingSignIn(false);
+      setUser(session.user);
     },
     [executeAuthentication, setAccessToken]
   );
