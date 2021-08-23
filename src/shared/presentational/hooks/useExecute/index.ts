@@ -1,7 +1,7 @@
 import React from 'react';
 import Toast from 'react-native-toast-message';
 
-import { AppError, InternalServerError } from '../../../domain';
+import { AppError, InternalServerError, NetworkError } from '../../../domain';
 import { UseCase, ExecuteHandler } from './types';
 
 export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
@@ -23,11 +23,17 @@ export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
       function getTitleToastError(error: any): string {
         const isInternalServerError = error instanceof InternalServerError;
 
-        const titleToastError = isInternalServerError
-          ? 'Lamentamos pelo incovinente'
-          : 'Verifique os dados e tente novamente';
+        if (isInternalServerError) {
+          return 'Lamentamos pelo incovinente';
+        }
 
-        return titleToastError;
+        const isNetworkError = error instanceof NetworkError;
+
+        if (isNetworkError) {
+          return 'Sem conexão';
+        }
+
+        return 'Lamentamos pelo incovinente';
       }
 
       try {
