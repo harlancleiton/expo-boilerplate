@@ -1,4 +1,4 @@
-import { AppError } from '../../../shared';
+import { AppError } from '../../../shared/domain';
 
 export class UnauthorizedError extends AppError {
   constructor(message = 'Credenciais inválidas') {

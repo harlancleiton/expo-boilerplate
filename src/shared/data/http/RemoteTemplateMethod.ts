@@ -1,4 +1,4 @@
-import { UnauthorizedError } from '../../../auth';
+import { UnauthorizedError } from '../../../auth/domain';
 import {
   AppError,
   BadRequestError,
