@@ -1,37 +1,21 @@
 import { UserModel } from '../../../../auth';
-import {
-  AppError,
-  HttpClient,
-  NetworkError,
-  UnauthorizedError
-} from '../../../../shared';
-import { HttpResponse } from '../../../../shared/data/protocols/http/types';
+import { HttpClient, RemoteTemplateMethod } from '../../../../shared';
+import { HttpMethod } from '../../../../shared/data/protocols/http/types';
 import { GetMe } from '../../../domain/usecases';
 
-export class RemoteGetMe implements GetMe {
-  constructor(private readonly httpClient: HttpClient) {}
+export class RemoteGetMe
+  extends RemoteTemplateMethod<UserModel>
+  implements GetMe
+{
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
+  }
 
-  async execute(): Promise<UserModel> {
-    try {
-      const response = await this.httpClient.request<UserModel>({
-        method: 'get',
-        url: 'users/me'
-      });
+  getUrl(): string {
+    return 'users/me';
+  }
 
-      return response.data;
-    } catch (error) {
-      if (!error.response) {
-        throw new NetworkError();
-      }
-
-      const response: HttpResponse = error.response;
-
-      switch (response.status) {
-        case 401:
-          throw new UnauthorizedError();
-        default:
-          throw new AppError();
-      }
-    }
+  getMethod(): HttpMethod {
+    return 'get';
   }
 }
