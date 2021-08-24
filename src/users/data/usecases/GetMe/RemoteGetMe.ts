@@ -1,5 +1,10 @@
-import { UnauthorizedError, UserModel } from '../../../../auth';
-import { AppError, HttpClient, NetworkError } from '../../../../shared';
+import { UserModel } from '../../../../auth';
+import {
+  AppError,
+  HttpClient,
+  NetworkError,
+  UnauthorizedError
+} from '../../../../shared';
 import { HttpResponse } from '../../../../shared/data/protocols/http/types';
 import { GetMe } from '../../../domain/usecases';
 

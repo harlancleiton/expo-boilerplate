@@ -1,4 +1,9 @@
-import { AppError, HttpClient, RemoteTemplateMethod } from '../../../../shared';
+import {
+  AppError,
+  HttpClient,
+  RemoteTemplateMethod,
+  UnauthorizedError
+} from '../../../../shared';
 import {
   HttpMethod,
   HttpResponse
@@ -6,8 +11,7 @@ import {
 import {
   Authentication,
   CredentialsModel,
-  SessionModel,
-  UnauthorizedError
+  SessionModel
 } from '../../../domain';
 
 export class RemoteAuthentication
@@ -41,6 +45,9 @@ export class RemoteAuthentication
       return super.exceptionFactory(error);
     }
 
-    return new UnauthorizedError('Usuario ou senha incorretos');
+    return new UnauthorizedError(
+      'Usuario ou senha incorretos',
+      'Se esqueceu sua senha é facil recuperá-la, basta clicar em "esqueci minha senha"'
+    );
   }
 }

@@ -1,7 +1,10 @@
 import { AppError } from './AppError';
 
 export class BadRequestError extends AppError {
-  constructor(message = 'Ops, parece que tem algum dado incorreto.') {
-    super(message);
+  constructor(
+    title = 'Algo de errado não está certo',
+    message = 'Verifique os dados e tente novamente'
+  ) {
+    super(message, title);
   }
 }

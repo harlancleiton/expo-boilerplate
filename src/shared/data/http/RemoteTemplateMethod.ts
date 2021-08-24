@@ -1,9 +1,9 @@
-import { UnauthorizedError } from '../../../auth/domain';
 import {
   AppError,
   BadRequestError,
   InternalServerError,
-  NetworkError
+  NetworkError,
+  UnauthorizedError
 } from '../../domain';
 import { HttpClient } from '../protocols';
 import { HttpMethod, HttpResponse } from '../protocols/http/types';
@@ -59,7 +59,10 @@ export abstract class RemoteTemplateMethod<ResponseT> {
       case 401:
         return new UnauthorizedError();
       case 404:
-        return new AppError('Não encontramos o que você está procurando');
+        return new AppError(
+          'Este item não foi encontrado',
+          'Acredite, estamos muito tristes por não ter encontrado o que você estava procurando'
+        );
       case 500:
       case 503:
         return new InternalServerError();

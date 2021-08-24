@@ -1,5 +1,8 @@
 export class AppError extends Error {
-  constructor(message = 'Ocorreu um erro desconhecido') {
+  constructor(
+    public readonly title = 'Lamentamos pelo inconveniente',
+    message = 'Ocorreu um erro desconhecido'
+  ) {
     super(message);
   }
 }
