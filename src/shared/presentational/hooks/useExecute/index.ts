@@ -1,10 +1,12 @@
 import React from 'react';
-import Toast from 'react-native-toast-message';
 
 import { AppError, InternalServerError, NetworkError } from '../../../domain';
+import { useToast } from '../useToast';
 import { UseCase, ExecuteHandler } from './types';
 
 export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
+  const toast = useToast();
+
   const execute = React.useCallback<ExecuteHandler<UseCaseT['execute']>>(
     async (...args) => {
       function getErrorMessage(error: any): string {
@@ -44,16 +46,16 @@ export function useExecute<UseCaseT extends UseCase>(usecase: UseCaseT) {
         const errorMessage = getErrorMessage(error);
         const titleToastError = getTitleToastError(error);
 
-        Toast.show({
+        toast({
           type: 'error',
-          text1: titleToastError,
-          text2: errorMessage
+          title: titleToastError,
+          message: errorMessage
         });
 
         return { status: 'error', error: errorMessage, data: undefined };
       }
     },
-    [usecase]
+    [toast, usecase]
   );
 
   return execute;
