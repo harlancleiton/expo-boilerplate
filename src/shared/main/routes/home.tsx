@@ -4,8 +4,7 @@ import { View, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { useAuth } from '../../../auth';
-import { Button } from '../../presentational';
-import { HomeRoutes } from './routes';
+import { Button, LinkButton } from '../../presentational';
 import { HomeStackParamList } from './types';
 
 const Stack = createStackNavigator<HomeStackParamList>();
@@ -15,7 +14,7 @@ export function HomeRouter() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={HomeRoutes.Home}>
+      <Stack.Screen name="Home">
         {() => (
           <View
             style={{
@@ -27,6 +26,12 @@ export function HomeRouter() {
             <Text>Bem vindo de volta</Text>
 
             <Button onPress={signOut} title="Sair" />
+            <LinkButton
+              title="Esqueceu sua senha?"
+              onPress={() => {
+                console.log('onPress');
+              }}
+            />
           </View>
         )}
       </Stack.Screen>

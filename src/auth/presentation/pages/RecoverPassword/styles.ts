@@ -29,7 +29,7 @@ export const FormContainer = styled.View`
   padding-horizontal: 16px;
 `;
 
-export const SignInButton = styled(Button)``;
+export const SubmitButton = styled(Button)``;
 
 export const GreetingContainer = styled.View`
   align-items: center;
@@ -48,12 +48,6 @@ export const GreetingText = styled(Typography)`
 
 export const MailIcon = styled(MaterialIcons).attrs({
   name: 'mail',
-  size: 24,
-  color: '#D2695C'
-})``;
-
-export const PasswordIcon = styled(MaterialIcons).attrs({
-  name: 'lock',
   size: 24,
   color: '#D2695C'
 })``;
