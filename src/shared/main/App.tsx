@@ -4,16 +4,28 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
 import { StatusBar } from 'expo-status-bar';
 
-import { AuthProvider, makeAuthentication } from '../../auth';
+import {
+  AuthProvider,
+  AuthStackParamList,
+  makeAuthentication
+} from '../../auth';
 import { makeGetMe } from '../../users';
 import { ACCESS_TOKEN } from '../data';
 import { makeStorage } from './factories';
 import { Router } from './routes/router';
+import { HomeStackParamList } from './routes/types';
+
+const prefix = Linking.createURL('/');
 
 export function App() {
+  const linking: LinkingOptions<AuthStackParamList | HomeStackParamList> = {
+    prefixes: [prefix, 'https://expo-boilerplate.dev']
+  };
+
   const storage = makeStorage();
 
   function clearCache() {
@@ -34,7 +46,7 @@ export function App() {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <StatusBar style="auto" />
         <AuthProvider
           authentication={makeAuthentication()}
