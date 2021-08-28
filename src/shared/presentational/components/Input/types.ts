@@ -2,7 +2,8 @@ import {
   Control,
   FieldPath,
   FieldPathValue,
-  FieldValues
+  FieldValues,
+  UnpackNestedValue
 } from 'react-hook-form';
 import {
   NativeSyntheticEvent,
@@ -11,13 +12,16 @@ import {
 } from 'react-native';
 
 // @ts-ignore
-export interface InputProps<TFieldValues extends FieldValues = FieldValues>
-  extends TextInputProps {
+export interface InputProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> extends TextInputProps {
+  name: TName;
+  defaultValue?: UnpackNestedValue<FieldPathValue<TFieldValues, TName>>;
   control: Control<TFieldValues>;
-  name: FieldPath<TFieldValues>;
+
   label: string;
   icon?: JSX.Element;
-  defaultValue?: FieldPathValue<TFieldValues, FieldPath<TFieldValues>>;
 }
 
 export type FormChangeHandler = (...event: any[]) => void;

@@ -1,5 +1,10 @@
 import React from 'react';
-import { Controller, FieldError, FieldValues } from 'react-hook-form';
+import {
+  Controller,
+  FieldError,
+  FieldPath,
+  FieldValues
+} from 'react-hook-form';
 import { TextInput } from 'react-native';
 
 import {
@@ -19,7 +24,10 @@ import {
   InputProps
 } from './types';
 
-export function Input<TFieldValues extends FieldValues>({
+export function Input<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>({
   control,
   name,
   label,
@@ -30,7 +38,7 @@ export function Input<TFieldValues extends FieldValues>({
   secureTextEntry,
   icon,
   ...rest
-}: InputProps<TFieldValues>) {
+}: InputProps<TFieldValues, TName>) {
   const inputRef = React.useRef<TextInput>(null);
 
   const [visibleSecureText, setVisibleSecureText] = React.useState(false);
@@ -86,7 +94,12 @@ export function Input<TFieldValues extends FieldValues>({
       name={name}
       defaultValue={defaultValue}
       render={({
-        field: { value, onChange, onBlur: onBlurFromForm, ref },
+        field: {
+          value,
+          onChange,
+          onBlur: onBlurFromForm,
+          ref: refFromFieldForm
+        },
         fieldState: { error }
       }) => {
         return (
@@ -100,7 +113,7 @@ export function Input<TFieldValues extends FieldValues>({
               <StyledInput
                 {...rest}
                 ref={e => {
-                  ref(e);
+                  refFromFieldForm(e);
                   // @ts-ignore
                   inputRef.current = e;
                 }}
