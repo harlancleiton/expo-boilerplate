@@ -5,9 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { makeSignIn } from '../factories';
 import { Routes } from './routes';
 
-export function AuthRouter() {
-  const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 
+export function AuthRouter() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={Routes.SignIn} component={makeSignIn} />
