@@ -5,15 +5,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { useAuth } from '../../../auth';
 import { Button } from '../../presentational';
+import { HomeRoutes } from './routes';
+import { HomeStackParamList } from './types';
+
+const Stack = createStackNavigator<HomeStackParamList>();
 
 export function HomeRouter() {
-  const Stack = createStackNavigator();
-
   const { signOut } = useAuth();
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home">
+      <Stack.Screen name={HomeRoutes.Home}>
         {() => (
           <View
             style={{

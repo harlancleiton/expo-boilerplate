@@ -3,14 +3,15 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { makeSignIn } from '../factories';
-import { Routes } from './routes';
+import { AuthRoutes } from './routes';
+import { AuthStackParamList } from './types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AuthStackParamList>();
 
 export function AuthRouter() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={Routes.SignIn} component={makeSignIn} />
+      <Stack.Screen name={AuthRoutes.SignIn} component={makeSignIn} />
     </Stack.Navigator>
   );
 }
