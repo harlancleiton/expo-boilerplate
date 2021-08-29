@@ -35,8 +35,8 @@ export function SignIn({ navigation }: SignInProps) {
 
   const { signIn } = useAuth();
 
-  function handleRecoverPassword() {
-    navigation.navigate('RecoverPassword');
+  function handleForgotPassword() {
+    navigation.navigate('ForgotPassword');
   }
 
   return (
@@ -85,7 +85,7 @@ export function SignIn({ navigation }: SignInProps) {
 
         <LinkButton
           title="Esqueceu sua senha?"
-          onPress={handleRecoverPassword}
+          onPress={handleForgotPassword}
         />
       </FormContainer>
     </Container>

@@ -1,6 +1,6 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 
-import { AuthStackParamList, AuthRoutes } from '../../../main';
+import { AuthStackParamList } from '../../../main';
 
 export interface SignInFormData {
   email: string;
@@ -8,6 +8,6 @@ export interface SignInFormData {
 }
 
 export interface SignInProps {
-  navigation: NavigationProp<AuthStackParamList, AuthRoutes.RecoverPassword>;
-  route: RouteProp<AuthStackParamList, AuthRoutes.RecoverPassword>;
+  navigation: NavigationProp<AuthStackParamList, 'SignIn'>;
+  route: RouteProp<AuthStackParamList, 'SignIn'>;
 }

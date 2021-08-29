@@ -1,2 +1,2 @@
-export * from './RecoverPassword';
+export * from './ForgotPassword';
 export * from './SignIn';

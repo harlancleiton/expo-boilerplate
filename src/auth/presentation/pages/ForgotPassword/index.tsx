@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StatusBar } from 'expo-status-bar';
 import * as yup from 'yup';
 
-import { Input, SizedBox } from '../../../../shared';
+import { Input, SizedBox, useExecute } from '../../../../shared';
 import {
   Container,
   HeaderImage,
@@ -17,22 +17,33 @@ import {
   GreetingText,
   MailIcon
 } from './styles';
-import { RecoverPasswordFormData } from './types';
+import { ForgotPasswordFormData, ForgotPasswordProps } from './types';
 
 const schema = yup.object().shape({
   email: yup.string().email('E-mail inválido').required('Informe seu e-mail')
 });
 
-export function RecoverPassword() {
+export function ForgotPassword({
+  navigation,
+  recoverPassword
+}: ForgotPasswordProps) {
+  const [, setLoading] = React.useState(false);
+
   const { control, handleSubmit: handleSubmitFromForm } =
-    useForm<RecoverPasswordFormData>({
+    useForm<ForgotPasswordFormData>({
       mode: 'onBlur',
       resolver: yupResolver(schema),
       defaultValues: { email: 'harlancleiton@gmail.com' }
     });
 
-  function handleSubmit({ email }: RecoverPasswordFormData) {
-    console.log('email: ', email);
+  const recoverPasswordExecute = useExecute(recoverPassword);
+
+  async function handleSubmit({ email }: ForgotPasswordFormData) {
+    setLoading(true);
+    const response = await recoverPasswordExecute(email);
+    setLoading(false);
+
+    if (response.status === 'success') navigation.navigate('SignIn');
   }
 
   return (

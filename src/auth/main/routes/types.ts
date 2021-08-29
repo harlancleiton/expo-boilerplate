@@ -1,4 +1,4 @@
 export type AuthStackParamList = {
-  RecoverPassword: undefined;
+  ForgotPassword: undefined;
   SignIn: undefined;
 };
