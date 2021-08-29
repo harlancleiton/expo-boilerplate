@@ -43,7 +43,7 @@ export function ForgotPassword({
     const response = await recoverPasswordExecute(email);
     setLoading(false);
 
-    if (response.status === 'success') navigation.navigate('SignIn');
+    if (response.status === 'success') navigation.navigate('EmailSent');
   }
 
   return (
