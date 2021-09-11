@@ -16,9 +16,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "dev.expoboilerplate",
       "supportsTablet": true
     },
     "android": {
+      "package": "dev.expoboilerplate",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
