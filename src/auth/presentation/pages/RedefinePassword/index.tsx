@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StatusBar } from 'expo-status-bar';
 import * as yup from 'yup';
 
-import { Input, SizedBox, useExecute } from '../../../../shared';
+import { Input, SizedBox, useExecute, useToast } from '../../../../shared';
 import {
   Container,
   HeaderImage,
@@ -15,7 +15,7 @@ import {
   GreetingContainer,
   GreetingTitle,
   GreetingText,
-  MailIcon
+  PasswordIcon
 } from './styles';
 import { RedefinePasswordFormData, RedefinePasswordProps } from './types';
 
@@ -41,13 +41,21 @@ export function RedefinePassword({
     });
 
   const redefinePasswordExecute = useExecute(resetPassword);
+  const toast = useToast();
 
   async function handleSubmit({ password }: RedefinePasswordFormData) {
     setLoading(true);
     const response = await redefinePasswordExecute({ password, token });
     setLoading(false);
 
-    if (response.status === 'success') navigation.navigate('EmailSent');
+    if (response.status === 'error') return;
+
+    toast({
+      type: 'success',
+      title: 'Senha redefinida',
+      message: 'Faça login e volte a aproveitar o Clearo'
+    });
+    navigation.navigate('SignIn');
   }
 
   return (
@@ -65,11 +73,11 @@ export function RedefinePassword({
         </GreetingContainer>
 
         <Input
-          icon={<MailIcon />}
+          icon={<PasswordIcon />}
           control={control}
           name="password"
-          label="Informe seu e-mail"
-          keyboardType="email-address"
+          label="Informe a nova senha"
+          secureTextEntry
           autoCapitalize="none"
           onSubmitEditing={handleSubmitFromForm(handleSubmit)}
           returnKeyType="done"
@@ -78,7 +86,7 @@ export function RedefinePassword({
         <SizedBox height={24} />
 
         <SubmitButton
-          title="Enviar link"
+          title="Redefinir senha"
           onPress={handleSubmitFromForm(handleSubmit)}
         />
       </FormContainer>

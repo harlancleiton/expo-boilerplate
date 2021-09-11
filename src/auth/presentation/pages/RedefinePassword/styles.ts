@@ -46,8 +46,8 @@ export const GreetingText = styled(Typography)`
   color: #a7a7af;
 `;
 
-export const MailIcon = styled(MaterialIcons).attrs({
-  name: 'mail',
+export const PasswordIcon = styled(MaterialIcons).attrs({
+  name: 'lock',
   size: 24,
   color: '#D2695C'
 })``;
