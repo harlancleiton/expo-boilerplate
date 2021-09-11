@@ -5,6 +5,6 @@ export class BadRequestError extends AppError {
     title = 'Algo de errado não está certo',
     message = 'Verifique os dados e tente novamente.'
   ) {
-    super(message, title);
+    super(title, message);
   }
 }
