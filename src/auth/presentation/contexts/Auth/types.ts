@@ -26,4 +26,5 @@ export interface AuthProviderProps {
   getMe: GetMe;
   removeAccessToken(): Promise<void>;
   setAccessToken(accessToken: string): Promise<void>;
+  setRefreshToken(refreshToken: string): Promise<void>;
 }

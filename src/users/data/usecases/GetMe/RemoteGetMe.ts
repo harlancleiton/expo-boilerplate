@@ -1,5 +1,5 @@
 import { UserModel } from '../../../../auth';
-import { HttpClient, RemoteTemplateMethod } from '../../../../shared';
+import { HttpClient, RemoteTemplateMethod } from '../../../../shared/data';
 import { HttpMethod } from '../../../../shared/data/protocols/http/types';
 import { GetMe } from '../../../domain/usecases';
 

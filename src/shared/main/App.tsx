@@ -18,7 +18,7 @@ import {
   makeAuthentication
 } from '../../auth';
 import { makeGetMe } from '../../users';
-import { ACCESS_TOKEN } from '../data';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../data';
 import { makeStorage } from './factories';
 import { Router } from './routes/router';
 import { HomeStackParamList } from './routes/types';
@@ -59,6 +59,10 @@ export function App() {
     return storage.setItem(ACCESS_TOKEN, accessToken);
   }
 
+  function setRefreshToken(refreshToken: string) {
+    return storage.setItem(REFRESH_TOKEN, refreshToken);
+  }
+
   return (
     <SafeAreaProvider>
       <NavigationContainer linking={linking}>
@@ -70,6 +74,7 @@ export function App() {
           getMe={makeGetMe()}
           removeAccessToken={removeAccessToken}
           setAccessToken={setAccessToken}
+          setRefreshToken={setRefreshToken}
         >
           <Router />
         </AuthProvider>

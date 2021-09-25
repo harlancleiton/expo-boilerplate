@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useExecute } from '../../../../shared';
+import { useExecute } from '../../../../shared/presentational/hooks/useExecute';
 import { UserModel } from '../../../domain';
 import { AuthContextProps, AuthProviderProps, SignInHandler } from './types';
 
@@ -15,7 +15,8 @@ export function AuthProvider({
   getAccessToken,
   getMe,
   removeAccessToken,
-  setAccessToken
+  setAccessToken,
+  setRefreshToken
 }: AuthProviderProps) {
   const [user, setUser] = React.useState<UserModel>(null);
   const [loadingSignIn, setLoadingSignIn] = React.useState(false);
@@ -62,6 +63,7 @@ export function AuthProvider({
       if (status === 'error') return;
 
       await setAccessToken(session.accessToken);
+      await setRefreshToken(session.refreshToken);
       setUser(session.user);
     },
     [executeAuthentication, setAccessToken]
