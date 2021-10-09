@@ -66,7 +66,7 @@ export function AuthProvider({
       await setRefreshToken(session.refreshToken);
       setUser(session.user);
     },
-    [executeAuthentication, setAccessToken]
+    [executeAuthentication, setAccessToken, setRefreshToken]
   );
 
   const signOut = React.useCallback(async () => {
