@@ -18,8 +18,13 @@ import {
   makeAuthentication
 } from '../../auth';
 import { makeGetMe } from '../../users';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../data';
-import { makeStorage } from './factories';
+import {
+  clearCacheAdapter,
+  getAccessTokenAdapter,
+  removeAccessTokenAdapter,
+  setAccessTokenAdapter,
+  setRefreshTokenAdapter
+} from './adapters';
 import { Router } from './routes/router';
 import { HomeStackParamList } from './routes/types';
 
@@ -41,40 +46,18 @@ export function App() {
     config
   };
 
-  const storage = makeStorage();
-
-  function clearCache() {
-    return storage.clear();
-  }
-
-  function getAccessToken() {
-    return storage.getItem<string>(ACCESS_TOKEN);
-  }
-
-  function removeAccessToken() {
-    return storage.deleteItem(ACCESS_TOKEN);
-  }
-
-  function setAccessToken(accessToken: string) {
-    return storage.setItem(ACCESS_TOKEN, accessToken);
-  }
-
-  function setRefreshToken(refreshToken: string) {
-    return storage.setItem(REFRESH_TOKEN, refreshToken);
-  }
-
   return (
     <SafeAreaProvider>
       <NavigationContainer linking={linking}>
         <StatusBar style="auto" />
         <AuthProvider
           authentication={makeAuthentication()}
-          clearCache={clearCache}
-          getAccessToken={getAccessToken}
+          clearCache={clearCacheAdapter}
+          getAccessToken={getAccessTokenAdapter}
           getMe={makeGetMe()}
-          removeAccessToken={removeAccessToken}
-          setAccessToken={setAccessToken}
-          setRefreshToken={setRefreshToken}
+          removeAccessToken={removeAccessTokenAdapter}
+          setAccessToken={setAccessTokenAdapter}
+          setRefreshToken={setRefreshTokenAdapter}
         >
           <Router />
         </AuthProvider>
