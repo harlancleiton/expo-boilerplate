@@ -30,7 +30,7 @@ export function SignIn({ navigation }: SignInProps) {
   const { control, handleSubmit, setFocus } = useForm<SignInFormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema),
-    defaultValues: { email: 'harlancleiton@gmail.com', password: '123123' }
+    defaultValues: { email: 'harlancleiton@gmail.com', password: 'Senha123!' }
   });
 
   const { signIn } = useAuth();
