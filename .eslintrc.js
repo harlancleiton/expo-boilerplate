@@ -7,8 +7,7 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
-    'prettier/react'
+    'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -21,8 +20,7 @@ module.exports = {
   plugins: [
     'react',
     'react-hooks',
-    '@typescript-eslint',
-    'prettier',
+    '@typescript-eslint/eslint-plugin',
     'import-helpers'
   ],
   rules: {

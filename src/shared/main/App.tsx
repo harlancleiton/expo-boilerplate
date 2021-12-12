@@ -61,7 +61,7 @@ export function App() {
         >
           <Router />
         </AuthProvider>
-        <Toast ref={Toast.setRef} topOffset={54} />
+        <Toast topOffset={54} />
       </NavigationContainer>
     </SafeAreaProvider>
   );
