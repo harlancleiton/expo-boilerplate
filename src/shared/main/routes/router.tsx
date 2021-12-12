@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useAuth, AuthRouter } from '../../../auth';
-import { HomeRouter } from './home';
+import { UserRouter } from '../../../users';
 
 export function Router() {
   const { signed } = useAuth();
@@ -10,5 +10,5 @@ export function Router() {
     return <AuthRouter />;
   }
 
-  return <HomeRouter />;
+  return <UserRouter />;
 }
