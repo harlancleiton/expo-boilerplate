@@ -2,14 +2,7 @@ import React from 'react';
 
 import { AppError } from '../../../domain';
 import { useToast } from '../useToast';
-import {
-  State,
-  Action,
-  PromiseStatus,
-  ExecuteHandler,
-  PromiseOptions,
-  ClearHandler
-} from './types';
+import { State, Action, PromiseStatus, PromiseOptions } from './types';
 
 const defaultPromiseOptions: PromiseOptions = { toast: true };
 
@@ -50,43 +43,42 @@ const promiseReducer = <T>(
 };
 
 export function usePromise<T = any>(
+  promise: Promise<T>,
   options = defaultPromiseOptions
-): [State<T>, ExecuteHandler<T>, ClearHandler] {
-  const toast = useToast();
-
+): State<T> {
   const [state, dispatch] = React.useReducer(
     promiseReducer as (prevState: State<T>, action: Action<T>) => State<T>,
     initialPromiseState
   );
 
-  const execute = React.useCallback<ExecuteHandler<T>>(
-    promise => {
-      dispatch({ type: PromiseStatus.PENDING });
+  const promiseRef = React.useRef(promise);
 
-      promise
-        .then(data => {
-          dispatch({ type: PromiseStatus.SUCCESS, payload: data });
-        })
-        .catch(_error => {
-          const error = _error instanceof AppError ? _error : new AppError();
+  React.useEffect(() => {
+    dispatch({ type: PromiseStatus.PENDING });
 
-          dispatch({ type: PromiseStatus.ERROR, payload: error.message });
+    promiseRef.current.then(data => {
+      dispatch({ type: PromiseStatus.SUCCESS, payload: data });
+    });
+    promiseRef.current.catch(_error => {
+      const error = _error instanceof AppError ? _error : new AppError();
 
-          if (options.toast === true || options.toast[PromiseStatus.ERROR]) {
-            toast({
-              type: 'error',
-              title: error.title,
-              message: error.message
-            });
-          }
-        });
-    },
-    [options.toast, toast]
-  );
-
-  const clear = React.useCallback(() => {
-    dispatch({ type: PromiseStatus.INIT });
+      dispatch({ type: PromiseStatus.ERROR, payload: error });
+    });
   }, []);
 
-  return [state, execute, clear];
+  const toast = useToast();
+
+  React.useEffect(() => {
+    if (!state.error) return;
+    if (!options.toast) return;
+    if (!options.toast[PromiseStatus.ERROR]) return;
+
+    toast({
+      type: 'error',
+      title: state.error.title,
+      message: state.error.message
+    });
+  }, [options.toast, state.error, toast]);
+
+  return state;
 }
