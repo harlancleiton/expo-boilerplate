@@ -70,8 +70,7 @@ export function usePromise<T = any>(
 
   React.useEffect(() => {
     if (!state.error) return;
-    if (!options.toast) return;
-    if (!options.toast[PromiseStatus.ERROR]) return;
+    if (!options.toast || !options.toast[PromiseStatus.ERROR]) return;
 
     toast({
       type: 'error',
