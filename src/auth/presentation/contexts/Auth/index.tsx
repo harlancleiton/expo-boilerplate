@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useExecute } from '../../../../shared/presentational/hooks/useExecute';
+import { useExecute } from '../../../../shared';
 import { UserModel } from '../../../domain';
 import { AuthContextProps, AuthProviderProps, SignInHandler } from './types';
 
