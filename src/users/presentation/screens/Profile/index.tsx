@@ -2,10 +2,17 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { useAuth } from '../../../../auth';
-import { Button } from '../../../../shared';
+import { Button, usePromise } from '../../../../shared';
+import { ProfileProps } from './types';
 
-export function Profile() {
+export function Profile({ getMe }: ProfileProps) {
   const { signOut } = useAuth();
+
+  const { status, error, data } = usePromise(getMe.execute());
+
+  React.useEffect(() => {
+    console.log('{ status, error, data }: ', { status, error, data });
+  }, [data, error, status]);
 
   return (
     <View
